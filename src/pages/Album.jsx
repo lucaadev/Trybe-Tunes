@@ -39,7 +39,7 @@ export default class Album extends Component {
               <MusicCard
                 trackName={ music.trackName }
                 previewUrl={ music.previewUrl }
-                musicTrackId={ `checkbox-music-${music.TrackId}` }
+                trackId={ `checkbox-music-${music.trackId}` }
                 music={ music }
               />
             )
