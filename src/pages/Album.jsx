@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from './components/MusicCard';
+import Loading from './components/Loading';
 
 export default class Album extends Component {
   constructor() {
@@ -9,6 +10,8 @@ export default class Album extends Component {
 
     this.state = {
       musics: [],
+      // favorites: [],
+      load: false,
     };
   }
 
@@ -23,11 +26,10 @@ export default class Album extends Component {
   }
 
   render() {
-    const { musics } = this.state;
+    const { musics, load } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
-        { console.log(musics) }
         {
           musics.map((music, index) => (
             index === 0 ? (
@@ -39,12 +41,13 @@ export default class Album extends Component {
               <MusicCard
                 trackName={ music.trackName }
                 previewUrl={ music.previewUrl }
-                trackId={ `checkbox-music-${music.trackId}` }
+                trackId={ music.trackId }
                 music={ music }
               />
             )
           ))
         }
+        { load && <Loading /> }
       </div>
     );
   }
