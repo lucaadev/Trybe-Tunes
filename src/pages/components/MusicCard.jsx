@@ -29,7 +29,7 @@ export default class MusicCard extends Component {
   }
 
   checkFavorite = async () => {
-    const { trackId } = this.props;
+    const { trackId, refreshFavSongs } = this.props;
     const { checked } = this.state;
 
     if (checked === false) {
@@ -49,6 +49,7 @@ export default class MusicCard extends Component {
       });
 
       await removeSong(trackId);
+      await refreshFavSongs(trackId);
 
       this.setState({
         load: false,
@@ -61,23 +62,24 @@ export default class MusicCard extends Component {
     const { trackName, previewUrl, trackId } = this.props;
     const { checked, load } = this.state;
     return (
-      <>
+      <main>
         <p>{trackName}</p>
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />
+          <code>audio</code>
         </audio>
-        <label htmlFor={ trackId }>
+        <label htmlFor="checkbox">
           Favorita
           <input
             data-testid={ `checkbox-music-${trackId}` }
             type="checkbox"
             checked={ checked }
-            id="favorite"
+            id="checkbox"
             onChange={ this.checkFavorite }
           />
         </label>
         {load && <Loading />}
-      </>
+      </main>
     );
   }
 }
@@ -85,6 +87,6 @@ export default class MusicCard extends Component {
 MusicCard.propTypes = {
   trackName: propTypes.string.isRequired,
   previewUrl: propTypes.string.isRequired,
-  trackId: propTypes.string.isRequired,
-  // music: propTypes.shape().isRequired,
+  trackId: propTypes.number.isRequired,
+  refreshFavSongs: propTypes.func.isRequired,
 };

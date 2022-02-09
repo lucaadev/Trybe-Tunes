@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Header from './components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from './components/MusicCard';
@@ -10,7 +11,6 @@ export default class Album extends Component {
 
     this.state = {
       musics: [],
-      // favorites: [],
       load: false,
     };
   }
@@ -24,6 +24,10 @@ export default class Album extends Component {
     getMusics(idMusic)
       .then((song) => this.setState({ musics: song }));
   }
+
+  refreshFavSongs = async () => {
+    await getFavoriteSongs();
+  };
 
   render() {
     const { musics, load } = this.state;
@@ -43,6 +47,7 @@ export default class Album extends Component {
                 previewUrl={ music.previewUrl }
                 trackId={ music.trackId }
                 music={ music }
+                refreshFavSongs={ this.refreshFavSongs }
               />
             )
           ))
